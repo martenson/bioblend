@@ -22,11 +22,12 @@ def skip_unless_cloudman():
     else:
         return lambda f: f
 
+    
 def skip_unless_galaxy(min_release=None):
     """ Decorate tests with this to skip the test if Galaxy is not
     configured.
     """
-    
+
     if min_release is not None:
         pass
         galaxy_release = os.environ.get('GALAXY_VERSION', None)
