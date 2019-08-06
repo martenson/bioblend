@@ -4,26 +4,9 @@ python: "2.7"
 services:
   - postgresql
 env:
-  - TOX_ENV=py35 GALAXY_VERSION=dev
   - TOX_ENV=py27 GALAXY_VERSION=dev
-  - TOX_ENV=py27 GALAXY_VERSION=release_19.05
-  - TOX_ENV=py27 GALAXY_VERSION=release_19.01
-  - TOX_ENV=py27 GALAXY_VERSION=release_18.09
-  - TOX_ENV=py27 GALAXY_VERSION=release_18.05
-  - TOX_ENV=py27 GALAXY_VERSION=release_18.01
-  - TOX_ENV=py27 GALAXY_VERSION=release_17.09
-  - TOX_ENV=py27 GALAXY_VERSION=release_17.05
-  - TOX_ENV=py27 GALAXY_VERSION=release_17.01
-  - TOX_ENV=py27 GALAXY_VERSION=release_16.10
-  - TOX_ENV=py27 GALAXY_VERSION=release_16.07
-  - TOX_ENV=py27 GALAXY_VERSION=release_16.04
-  - TOX_ENV=py27 GALAXY_VERSION=release_16.01
-  - TOX_ENV=py27 GALAXY_VERSION=release_15.10
-  - TOX_ENV=py27 GALAXY_VERSION=release_15.07
-  - TOX_ENV=py27 GALAXY_VERSION=release_15.05
-  - TOX_ENV=py27 GALAXY_VERSION=release_15.03
-  - TOX_ENV=py27 GALAXY_VERSION=release_15.01
-  - TOX_ENV=py27 GALAXY_VERSION=release_14.10
+  - TOX_ENV=py27 GALAXY_VERSION=clean-libraries
+
 
 matrix:
   include:
@@ -70,7 +53,7 @@ before_script:
   - createdb -U postgres galaxy-travis
   # Install Galaxy
   - cd $HOME
-  - wget https://github.com/galaxyproject/galaxy/archive/${GALAXY_VERSION}.tar.gz
+  - wget https://github.com/martenson/galaxy/archive/${GALAXY_VERSION}.tar.gz
   - tar xvzf ${GALAXY_VERSION}.tar.gz | tail
   - cd galaxy-${GALAXY_VERSION}
   - GALAXY_DIR=$PWD
