@@ -138,7 +138,9 @@ class LibraryClient(Client):
         :return: A dictionary containing information about the dataset in the
           library
         """
-        return self._show_item(library_id, dataset_id)
+        base_url = self.gi._make_url(self)
+        url = '/'.join([base_url, 'libraries', 'datasets', dataset_id])
+        return self._get(url=url)
 
     def wait_for_dataset(self, library_id, dataset_id, maxwait=12000, interval=3):
         """
@@ -168,7 +170,7 @@ class LibraryClient(Client):
 
         time_left = maxwait
         while True:
-            dataset = self.show_dataset(library_id, dataset_id)
+            dataset = self.show_dataset(dataset_id)
             state = dataset['state']
             if state in terminal_states:
                 return dataset
