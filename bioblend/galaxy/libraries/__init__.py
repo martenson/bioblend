@@ -566,6 +566,8 @@ class LibraryClient(Client):
         """
         Copy a Galaxy dataset into a library.
 
+        Uses POST /api/folders/{encoded_folder_id}/contents.
+
         :type library_id: str
         :param library_id: id of the library where to place the uploaded file
 
@@ -585,11 +587,12 @@ class LibraryClient(Client):
         if folder_id is None:
             folder_id = self._get_root_folder_id(library_id)
         payload = {}
-        payload['folder_id'] = folder_id
         payload['create_type'] = 'file'
         payload['from_hda_id'] = dataset_id
         payload['ldda_message'] = message
-        return self._post(payload, id=library_id, contents=True)
+        base_url = self.gi._make_url(self)
+        url = '/'.join([base_url, 'folders', folder_id, 'contents'])
+        return self._post(payload=payload, url=url)
 
     def get_library_permissions(self, library_id):
         """
