@@ -590,8 +590,8 @@ class LibraryClient(Client):
         payload['create_type'] = 'file'
         payload['from_hda_id'] = dataset_id
         payload['ldda_message'] = message
-        base_url = self.gi._make_url(self)
-        url = '/'.join([base_url, 'folders', folder_id, 'contents'])
+        base_url = self.gi.url
+        url = '/'.join([base_url, 'api', 'folders', folder_id, 'contents'])
         return self._post(payload=payload, url=url)
 
     def get_library_permissions(self, library_id):
