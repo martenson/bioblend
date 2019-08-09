@@ -140,7 +140,7 @@ class LibraryClient(Client):
           library
         """
         base_url = self.gi._make_url(self)
-        url = '/'.join([base_url, 'libraries', 'datasets', dataset_id])
+        url = '/'.join([base_url, 'datasets', dataset_id])
         return self._get(url=url)
 
     def wait_for_dataset(self, library_id, dataset_id, maxwait=12000, interval=3):
