@@ -136,3 +136,28 @@ class FoldersClient(Client):
         if modify_ids:
             payload['modify_ids[]'] = modify_ids
         return self._post(url=url, payload=payload)
+
+    def copy_from_hda(self, dataset_id, folder_id, message=''):
+        """
+        Copy a Galaxy history dataset into a library.
+
+        Uses POST /api/folders/{encoded_folder_id}/contents.
+
+        :type dataset_id: str
+        :param dataset_id: id of the dataset to copy from
+
+        :type folder_id: str
+        :param folder_id: id of the folder where to place the uploaded files.
+
+        :type message: str
+        :param message: message for copying action
+
+        :rtype: dict
+        :return: LDDA information
+        """
+        payload = {}
+        payload['create_type'] = 'file'
+        payload['from_hda_id'] = dataset_id
+        payload['ldda_message'] = message
+        url = self.gi._make_url(self, folder_id, contents=True)
+        return self._post(payload=payload, url=url)

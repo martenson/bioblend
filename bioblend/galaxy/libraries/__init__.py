@@ -6,6 +6,7 @@ import time
 
 from bioblend.galaxy.client import Client
 from bioblend.galaxy.datasets import DatasetTimeoutException, terminal_states
+from bioblend.galaxy.folders import FoldersClient
 from bioblend.util import attach_file
 
 log = logging.getLogger(__name__)
@@ -564,9 +565,9 @@ class LibraryClient(Client):
 
     def copy_from_dataset(self, library_id, dataset_id, folder_id=None, message=''):
         """
-        Copy a Galaxy dataset into a library.
+        Deprecated endpoint that proxies to the newer one under /api/folders.
 
-        Uses POST /api/folders/{encoded_folder_id}/contents.
+        Copy a Galaxy dataset into a library.
 
         :type library_id: str
         :param library_id: id of the library where to place the uploaded file
@@ -586,13 +587,8 @@ class LibraryClient(Client):
         """
         if folder_id is None:
             folder_id = self._get_root_folder_id(library_id)
-        payload = {}
-        payload['create_type'] = 'file'
-        payload['from_hda_id'] = dataset_id
-        payload['ldda_message'] = message
-        base_url = self.gi.url
-        url = '/'.join([base_url, 'api', 'folders', folder_id, 'contents'])
-        return self._post(payload=payload, url=url)
+        folders_client = FoldersClient(self.gi)
+        return folders_client.copy_from_hda(dataset_id, folder_id, message)
 
     def get_library_permissions(self, library_id):
         """
